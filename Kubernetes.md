@@ -37,115 +37,71 @@ Apresentação de Kubernetes
 # POD:
 
 ### Pod.yml
-> 	apiVersion: v1 - Versão da api, será substituida por apps/v1 futuramente.
-
+> 	Escopo
+	
+	apiVersion: v1 - Versão da api, será substituida por apps/v1 futuramente.
 	kind: Pod - Determinar o tipo de objeto 
-	
 	metadata: 	- Identificador para outros objetos
-	
 		name: pod-cre	- Nome do POD
-		
 		labels:			- Sub-identificadores, podem existir n labels de qualquer tipo.
-		
 			app: cre
-			
 			marca: corselLouco
-			
 	spec: 		- Escopo, contém os containers do projeto com seus respectivos nomes, imagens, portas de saidas e protocolos.
-	
-		containers:
-		
-			- name: nginx
-			
-			image: nginx
-			
-			ports:
-			
-				- name: nginxporta
-				
-				containerPort: 80
-				
-				protocol: TCP     
-				
+		containers:		
+			- name: nginx			
+			image: nginx			
+			ports:			
+				- name: nginxporta				
+				containerPort: 80				
+				protocol: TCP     				
 
 # DEPLOYMENT:
 
 ### Deploy.yml
-> 	apiVersion: apps/v1
-
-	kind: Deployment
+> 	Escopo
 	
-	metadata: -Identificador do deploy
-	
+	apiVersion: apps/v1
+	kind: Deployment	
+	metadata: -Identificador do deploy	
 		name: podcre-deployment
-		
-		labels:
-		
-			marca: corselLouco
-			
-	spec: - O deployment sempre pega como base um ReplicaSet, responsável por replicar em diferentes maquinas zonais ou regionais as configurações específicadas.
-	
-		replicas: 1 - Numero de réplicas
-		
-		selector: - Identificador do ReplicaSet
-		
-			matchLabels: 
-			
-				marca: corselLouco
-				
-		template: - configurações do pod
-		
-			metadata:
-			
-				labels:
-				
-					marca: corselLouco        
-					
-			spec:
-			
-				containers:
-				
-				- name: cre
-				
-				  image: nginx
-				  
-				  ports:
-				  
+		labels:		
+			marca: corselLouco			
+	spec: - O deployment sempre pega como base um ReplicaSet, responsável por replicar em diferentes maquinas zonais ou regionais as configurações específicadas.	
+		replicas: 1 - Numero de réplicas		
+		selector: - Identificador do ReplicaSet		
+			matchLabels: 			
+				marca: corselLouco				
+		template: - configurações do pod		
+			metadata:			
+				labels:				
+					marca: corselLouco        					
+			spec:			
+				containers:				
+				- name: cre				
+				  image: nginx				  
+				  ports:				  
 				  - containerPort: 80		
 				  
 # SERVICE:
 
 ### Service.yml
-> 	apiVersion: v1
+> 	Escopo
 
-	kind: Service
-	
-	metadata:
-	
-		name: apresentacaoservice
-		
-		labels:
-		
-			owner: leonardonaoki
-			
-	spec: - Especificações do objeto, pode ser um deploy ou um pod. Neste caso, um deploy
-	
-		selector:
-		
-			marca: corselLouco
-			
-		ports:
-		
-			- protocol: TCP 
-			
-			  port: 80
-			  
-			  targetPort: 80
-			  
-		type: LoadBalancer - "LoadBalancer" - possui IP Externo, balanceamento de carga e o ideal para testar em dev.
-		
-						   - "ClusterIP" - possui somente IP interno, concentra o seu cluster para ser reconhecido somente por um endereço. Usamos para comunicação interna, DEFAULT.
-						   
+	apiVersion: v1
+	kind: Service	
+	metadata:	
+		name: apresentacaoservice		
+		labels:		
+			owner: leonardonaoki			
+	spec: - Especificações do objeto, pode ser um deploy ou um pod. Neste caso, um deploy	
+		selector:		
+			marca: corselLouco			
+		ports:		
+			- protocol: TCP 			
+			  port: 80			  
+			  targetPort: 80			  
+		type: LoadBalancer - "LoadBalancer" - possui IP Externo, balanceamento de carga e o ideal para testar em dev.		
+						   - "ClusterIP" - possui somente IP interno, concentra o seu cluster para ser reconhecido somente por um endereço. Usamos para comunicação interna, DEFAULT.						   
 						   - "NodePort" - possui somente IP interno, configura o seu cluster para sair somente por uma porta de uma máquina específica, ideal para concentrar serviços em uma máquina mais potente ou segura.Necessário definir porta.
 						   						   
 > Comandos imperativos:
@@ -157,34 +113,22 @@ Apresentação de Kubernetes
 
 ### Virtualservice.yml
 
-> 	apiVersion: networking.istio.io/v1alpha3
+> 	Escopo
 
-	kind: VirtualService - CRD, Custom resource definition - kind personalizado, usamos para disponibilizar o CLUSTERIP(IP Interno) para a internet através de roteamento do ISTIO.
-	
+	apiVersion: networking.istio.io/v1alpha3
+	kind: VirtualService - CRD, Custom resource definition - kind personalizado, usamos para disponibilizar o CLUSTERIP(IP Interno) para a internet através de roteamento do ISTIO.	
 	metadata:
-	
-		name: kibana
-		
-		namespace: log - NameSpace é um espaço de trabalho paralelo a zona do seu cluster.
-		
-	spec:
-	
-		hosts: - É onde fica o endereço WEB para consulta.
-		
-		 - "kibana-log.${DOMAIN}"
-		 
-		gateways: - É o responsavel por dar acesso a internet e rotear.
-		
-		 - public-gateway.istio-system.svc.cluster.local
-		 
-	http:
-	
-	- route:
-	
-		- destination: - É onde aponta para seu objeto, através do identificador, que pode ser um service.
-		
-			host: kibana-logging						   
-			
+		name: kibana		
+		namespace: log - NameSpace é um espaço de trabalho paralelo a zona do seu cluster.		
+	spec:	
+		hosts: - É onde fica o endereço WEB para consulta.		
+		 - "kibana-log.${DOMAIN}"		 
+		gateways: - É o responsavel por dar acesso a internet e rotear.		
+		 - public-gateway.istio-system.svc.cluster.local		 
+	http:	
+	- route:	
+		- destination: - É onde aponta para seu objeto, através do identificador, que pode ser um service.		
+			host: kibana-logging						   			
 			
 ### Kubernetes comandos ou informações adicionais 
 
