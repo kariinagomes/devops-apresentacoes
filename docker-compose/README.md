@@ -1,6 +1,6 @@
 
 **Docker Compose**
-***utilizando o docker-compose do curso da alura***
+*****- utilizando o docker-compose do curso da alura*****
 
 Subindo múltiplos containers:
   docker run -d --name meu-mongo --network minha-rede mongo
