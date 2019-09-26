@@ -1,6 +1,6 @@
-**Observação: falta alguns ajustes nesse doc, considerem o arquivo docker-compose.yml dentro do projeto.**
 
 **Docker Compose**
+***utilizando o docker-compose do curso da alura***
 
 Subindo múltiplos containers:
   docker run -d --name meu-mongo --network minha-rede mongo
@@ -8,7 +8,7 @@ Subindo múltiplos containers:
 
 Mas fazer dessa forma, na mão, não é bom…é mais suscetível a erros, como, por exemplo, acabar executando na ordem errada…
 
-Subir tudo na mão?? NÃO! É aí que entra o docker-compose.
+Mas precisa subir tudo na mão?? NÃO! É aí que entra o docker-compose.
 
 É um arquivo .yml, onde estará toda a descrição do que quero que aconteça, todo o processo de subir a aplicação. 
 É tipo uma receita de bolo que tem que ser seguida pelo docker quando for subir a aplicação;
@@ -125,7 +125,7 @@ services:
     build: 
       dockerfile: ./docker/nginx.dockerfile
       context: .
-    image: karinag/nginx
+    image: douglasq/nginx
     container_name: nginx
     ports:
       - "80:80"
@@ -149,7 +149,7 @@ services:
     build: 
       dockerfile: ./docker/nginx.dockerfile
       context: .
-    image: karinag/nginx
+    image: douglasq/nginx
     container_name: nginx
     ports:
       - "80:80"
@@ -163,7 +163,7 @@ services:
     build:
       dockerfile: ./docker/alura-books.dockerfile
       context: .
-    image: karinag/alura-books
+    image: douglasq/alura-books
     container_name: alura-books-1
     ports: 
       - "3000"
@@ -173,7 +173,7 @@ services:
     build:
       dockerfile: ./docker/alura-books.dockerfile
       context: .
-    image: karinag/alura-books
+    image: douglasq/alura-books
     container_name: alura-books-2
     ports: 
       - "3000"
@@ -183,7 +183,7 @@ services:
     build:
       dockerfile: ./docker/alura-books.dockerfile
       context: .
-    image: karinag/alura-books
+    image: douglasq/alura-books
     container_name: alura-books-3
     ports: 
       - "3000"
@@ -202,7 +202,7 @@ services:
     build: 
       dockerfile: ./docker/nginx.dockerfile
       context: .
-    image: karinag/nginx
+    image: douglasq/nginx
     container_name: nginx
     ports:
       - "80:80"
@@ -220,7 +220,7 @@ services:
     build:
       dockerfile: ./docker/alura-books.dockerfile
       context: .
-    image: karinag/alura-books
+    image: douglasq/alura-books
     container_name: alura-books-1
     ports: 
       - "3000"
@@ -232,7 +232,7 @@ services:
     build:
       dockerfile: ./docker/alura-books.dockerfile
       context: .
-    image: karinag/alura-books
+    image: douglasq/alura-books
     container_name: alura-books-2
     ports: 
       - "3000"
@@ -244,7 +244,7 @@ services:
     build:
       dockerfile: ./docker/alura-books.dockerfile
       context: .
-    image: karinag/alura-books
+    image: douglasq/alura-books
     container_name: alura-books-3
     ports: 
       - "3000"
@@ -266,7 +266,7 @@ docker-compose up
 ```
 ou se quiser deixar rodando em background:
 ```
-docker-compose -d u
+docker-compose up -d
 ```
 Listar:
 ```
